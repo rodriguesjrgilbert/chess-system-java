@@ -52,15 +52,20 @@ public class UI {
 		}
 	}
 
-	public static void printMatch(ChessMatch chessmatch, List<ChessPiece> captured) {
-		printBoard(chessmatch.getPieces());
+	public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) {
+		printBoard(chessMatch.getPieces());
 		System.out.println();
 		printCapturedPieces(captured);
 		System.out.println();
-		System.out.println("Turn: " + chessmatch.getTurn());
-		System.out.println("Waiting player: " + chessmatch.getCurrentPlayer());
-		if(chessmatch.getCheck()) {
-			System.out.println("CHECK!");
+		System.out.println("Turn: " + chessMatch.getTurn());
+		if (!chessMatch.getCheckMate()) {
+			System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+			if (chessMatch.getCheck()) {
+				System.out.println("CHECK!");
+			}
+		} else {
+			System.out.println("CHECKMATE!");
+			System.out.println("Winner: " + chessMatch.getCurrentPlayer());
 		}
 	}
 
@@ -103,8 +108,10 @@ public class UI {
 	}
 
 	private static void printCapturedPieces(List<ChessPiece> captured) {
-		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList());
-		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList());
+		List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE)
+				.collect(Collectors.toList());
+		List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK)
+				.collect(Collectors.toList());
 		System.out.println("Captured pieces:");
 		System.out.print("White: ");
 		System.out.print(ANSI_WHITE);
